@@ -74,17 +74,26 @@ def ajouter_un_lecteur():
     numero_genre = ask_genre()
     numero_age = ask_age()
     numero_style_lecture = ask_style_de_lecture()
-    with open("readers.txt","a") as readers_db:
+    with open("readers.txt", "a") as readers_db:
         readers_db.write(nom_pseudo +"," + numero_genre + ','+ numero_age +','+ numero_style_lecture+ '\n')
 def supprimer_un_lecteur():
     name_a_sup= ask_pseudonyme()
-    with open("readers.txt","r") as readers_db:
+    with open("readers.txt", "r") as readers_db:
         sup_lecteur= readers_db.readlines()
-        for lines in sup_lecteur:
+        for lines in (sup_lecteur):
             if name_a_sup in lines :
-                del lines
-                return ('Lecteur {} supprimé'.format(name_a_sup))
+                 print(sup_lecteur)
+                 sup_lecteur.remove(lines)
+                 print('lecteur {} deleted'.format(name_a_sup))
+                 print(sup_lecteur)
+                 with open("readers.txt", "w") as readers_db2:
+                     for lecteur_restant in sup_lecteur:
+                         readers_db2.write(lecteur_restant)
+                 readers_db2.close()
+    readers_db.close()
 
+def afficher_un_lecteur():
+    return print('afficheur')
 
-
-
+def modifier_un_utilisateur():
+    return print('modfificateur')
