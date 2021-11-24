@@ -68,16 +68,38 @@ def ask_recommandation_livre():
         livrereco_menu = int(input(" Que voulez vous faire ? "))
     return livrereco_menu
 
+""" -----------------------------------------------------------------------------------------------------"""
+
+def check_profile(pseudo_to_del):
+    with open('readers.txt' , 'r') as profile_checkers:
+        profile_checker = profile_checkers.readlines()
+        for profile_data_number in range(len(profile_checker)):
+            profile_ind_data = profile_checker[profile_data_number]
+            go = profile_ind_data.replace(',',' ').split()
+            if go[0] == pseudo_to_del:
+                return True
+    return False
 
 def ajouter_un_lecteur():
+
     nom_pseudo = ask_pseudonyme()
+    name_to_add_verified = check_profile(nom_pseudo)
+    while name_to_add_verified == True:
+        print("Ce lecteur existe déjà, veuillez saisir un nom different ")
+        nom_pseudo = ask_pseudonyme()
+        name_to_add_verified = check_profile(nom_pseudo)
     numero_genre = ask_genre()
     numero_age = ask_age()
     numero_style_lecture = ask_style_de_lecture()
     with open("readers.txt", "a") as readers_db:
         readers_db.write(nom_pseudo +"," + numero_genre + ','+ numero_age +','+ numero_style_lecture+ '\n')
 def supprimer_un_lecteur():
-    name_a_sup= ask_pseudonyme()
+    name_a_sup = ask_pseudonyme()
+    name_a_sup_verified = check_profile(name_a_sup)
+    while name_a_sup_verified == False:
+        print("Ce lecteur n'existe pas, veuillez saisir un nom de lecteur correcte ")
+        name_a_sup = ask_pseudonyme()
+        name_a_sup_verified = check_profile(name_a_sup)
     with open("readers.txt", "r") as readers_db:
         sup_lecteur= readers_db.readlines()
         for lines in (sup_lecteur):
