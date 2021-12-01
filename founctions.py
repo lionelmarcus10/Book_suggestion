@@ -73,7 +73,7 @@ def ask_menu_profil():
     print("3 - Modifier un lecteur")
     print("4 - Supprimer un lecteur")
     profil_menu = input(" ... ")
-    while (profil_menu != '1' or profil_menu  !='2'or profil_menu != '3'or profil_menu != '4'):
+    while (profil_menu != '1' and profil_menu  !='2' and profil_menu != '3'and profil_menu != '4'):
         profil_menu = input(" Saisisez à nouveau le numéro : ")
     return int(profil_menu)
 
@@ -82,7 +82,7 @@ def ask_menu_dépot_livres():
     print("1 - Afficher la liste des livres dans le dépôt  \n "
           "2 - Ajouter un livre au dépôt \n 3 - Modifier le titre d’un livre dans le dépôt \n 4 - Supprimer un livre du dépôt ")
     dépot_menu = input(" ... ")
-    while (dépot_menu != '1' or dépot_menu !='2'or dépot_menu != '3'or dépot_menu != '4' ):
+    while (dépot_menu != '1' and dépot_menu !='2'and dépot_menu != '3'and dépot_menu != '4' ):
         dépot_menu = input(" Saisisez à nouveau le numéro ")
     return int(dépot_menu)
 
@@ -93,7 +93,7 @@ def ask_recommandation_livre():
     print("1 - Noter un livre")
     print("2 - Suggére des livres")
     livrereco_menu = input(" ...  ")
-    while (livrereco_menu !='1' or livrereco_menu != '2'):
+    while (livrereco_menu !='1' and livrereco_menu != '2'):
         livrereco_menu = input(" Saisissez à nouveau le numéro ")
     return int(livrereco_menu)
 
@@ -141,10 +141,8 @@ def supprimer_un_lecteur():
         sup_lecteur= readers_db.readlines()
         for lines in (sup_lecteur):
             if name_a_sup in lines :
-                 print(sup_lecteur)
                  sup_lecteur.remove(lines)
                  print('lecteur {} deleted'.format(name_a_sup))
-                 print(sup_lecteur)
                  with open("readers.txt", "w",encoding='utf-8') as readers_db2:
                      for lecteur_restant in sup_lecteur:
                          readers_db2.write(lecteur_restant)
@@ -170,17 +168,6 @@ def afficher_un_lecteur():
               lines[3] = liste_style_de_lecture[int(lines[3])-1]
               for i in lines:
                  print(i,end=' ')
-
-
-
-
-
-
-
-
-
-
-
 
 
 def modifier_un_lecteur():
@@ -238,9 +225,9 @@ def modify_book_title():
         book_title = ask_book_name()
         book_title_verified = check_book_name(book_title)
     new_title_of_book = input('Saisir le nom du nouveau livre : ')
-    with open("books.txt", "r",encoding='utf-8') as books_db:
+    with open("books.txt", "r", encoding='utf-8') as books_db:
         list_books_db = books_db.readlines()
-        with open('books.txt','w') as books_modification_part:
+        with open('books.txt','w', encoding='utf-8') as books_modification_part:
             for books in list_books_db:
                 if book_title + '\n' == books:
                     books_modification_part.write(new_title_of_book + '\n')

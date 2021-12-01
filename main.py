@@ -16,9 +16,9 @@ if menu ==1:
 elif menu == 2:
     menu_dépot_asked= ask_menu_dépot_livres()
     if menu_dépot_asked == 1:
-        add_books()
-    elif menu_dépot_asked == 2 :
         display_books()
+    elif menu_dépot_asked == 2 :
+        add_books()
     elif menu_dépot_asked == 3 :
         modify_book_title()
 
