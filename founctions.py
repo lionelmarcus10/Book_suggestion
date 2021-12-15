@@ -145,10 +145,14 @@ def ajouter_un_lecteur():
 def supprimer_un_lecteur():
     nom_a_sup = demander_un_pseudonyme()
     nom_a_sup_verifier = verifier_un_lecteur(nom_a_sup)
+    if nom_a_sup_verifier == True :
+        index_lecteur= catch_index('booksread.txt',nom_a_sup)
     while nom_a_sup_verifier == False:
         print("Ce lecteur n'existe pas, veuillez saisir un nom de lecteur correcte ")
         nom_a_sup = demander_un_pseudonyme()
-        nom_a_sup_verifie = verifier_un_lecteur(nom_a_sup)
+        nom_a_sup_verifier = verifier_un_lecteur(nom_a_sup)
+        if nom_a_sup_verifier == True:
+            index_lecteur = catch_index('booksread.txt', nom_a_sup)
     with open("readers.txt", "r",encoding='utf-8') as readers_db:
         sup_lecteur= readers_db.readlines()
         i=0
@@ -166,15 +170,16 @@ def supprimer_un_lecteur():
             with open("readers.txt", "w",encoding='utf-8') as readers_db:
                 for lecteur_restant in sup_lecteur:
                     readers_db.write(lecteur_restant)
+
+
     with open("booksread.txt","r",encoding='utf-8') as booksread_db:
         sup_lecteur_booksread_list = booksread_db.readlines()
-    i = 0
-    trouve = False
-    while (i < len(sup_lecteur_booksread_list) and not trouve):
-            sup_lecteur_booksread_list3 = sup_lecteur_booksread_list[i].split(",")
-            if nom_a_sup == sup_lecteur_booksread_list3[0]:
-                del sup_lecteur_booksread_list[i]
-            i+=1
+
+        del sup_lecteur_booksread_list[index_lecteur]
+        with open("booksread.txt","w",encoding='utf-8') as booksred_db2:
+            for l in sup_lecteur_booksread_list:
+                booksred_db2.write(l)
+
 
 
 """"la fonction afficher_un_lecteur peut afficher le profil d’un lecteur donné """
@@ -193,25 +198,34 @@ def afficher_un_lecteur():
               lines[1] = liste_genre[int(lines[1])-1]
               lines[2] = liste_age[int(lines[2]) - 1]
               lines[3] = liste_style_de_lecture[int(lines[3])-1]
-              print("Le lecteur s'est inscrit sous le pseudonyme {}, c'est un {}, âgé {} et qui aime lire des livres {}.".format(lines[0],lines[1],lines[2],lines[3]),end=" ")
+              print("Le lecteur s'est inscrit sous le pseudonyme {}, c'est un {}, âgé {} et qui aime lire des livres {} ".format(lines[0],lines[1],lines[2],lines[3]))
+
+
+
      with open("booksread.txt","r",encoding='utf-8') as bookread_db :
          afficher_lecteur = bookread_db.readlines()
-     i = 0
-     trouve = False
-     while (i < len(affichier_lecteur) + 1 and trouve==False):
-         afficher_lecteur1= afficher_lecteur[i].split(",")
-         if  af_lecteur == afficher_lecteur1[0]:
-             livres_lue_index = afficher_lecteur1[1:]
-             for d in range(0,len(livres_lue_index)):
-                 livres_lue_index[d] = int(livres_lue_index[d])
-             with open("books.txt","r",encoding='utf-8') as books_db:
-                 livres = books_db.readlines()
-                 for z in range(0,len(livres_lue_index)):
-                     print(livres[livres_lue_index[z]],end='-')
+         i = 0
+         trouve = False
+         while ( i < len(affichier_lecteur) ):
+             afficher_lecteur1= afficher_lecteur[i].split(",")
+             if af_lecteur == afficher_lecteur1[0]:
+                 livres_lue_index = afficher_lecteur1[1:]
+                 print(livres_lue_index)
+             i +=1
 
 
-             trouve = True
-         i+=1
+
+
+"""   for d in range(0,len(livres_lue_index)):
+     livres_lue_index[d] = int(livres_lue_index[d])
+ with open("books.txt","r",encoding='utf-8') as books_db:
+     livres = books_db.readlines()
+     for z in range(0,len(livres_lue_index)):
+         print(livres[livres_lue_index[z]],end='-')
+
+
+trouve = True
+i+=1"""
 
 
 
@@ -328,7 +342,7 @@ def modifier_un_lecteur():
 """Partie II : Visiter le dépôt des livres"""
 
 def ask_book_name():
-    book_name = input('Saisir le nom du livre')
+    book_name = input('Saisir le nom du livre : ')
     return book_name
 
 
@@ -463,12 +477,19 @@ def ask_user_books_read():
 
 
 def catch_index(file_name, name_to_catch_index):
-    with open(file_name, 'r', encoding='utf-8') as catch_index_var:
-        list_content = catch_index_var.readlines()
-    for content in range(len(list_content)):
-        list_content[content] = list_content[content].split(',')
-        if name_to_catch_index == list_content[content][0]:
-            return content
+    if file_name =='books.txt':
+        with open(file_name, 'r', encoding='utf-8') as catch_index_var:
+            list_content = catch_index_var.readlines()
+        for content in range(len(list_content)):
+            if name_to_catch_index + '\n' == list_content[content]:
+                return content
+    else:
+        with open(file_name, 'r', encoding='utf-8') as catch_index_var:
+            list_content = catch_index_var.readlines()
+        for content in range(len(list_content)):
+            list_content[content] = list_content[content].split(',')
+            if name_to_catch_index == list_content[content][0]:
+                return content
 
 
 def not_number_input(mylist):
@@ -483,38 +504,30 @@ def listnumber_in_list_books_number(nlist):
     with open('books.txt', 'r', encoding='utf-8') as books_info_file:
         number_book = len(books_info_file.readlines())
     for elemen_ind in nlist:
-        if elemen_ind < 1 or number_book < elemen_ind:
+        if elemen_ind < 0 or number_book < elemen_ind:
             return False
     return True
 
 
-
-
-
-    """def supprimer_un_livre():
+def supprimer_un_livre():
+    nom_livre_sup = ask_book_name()
+    nom_livresup_verifier = check_book_name(nom_livre_sup)
+    if nom_livresup_verifier == True:
+        index_livre = catch_index("books.txt",nom_livre_sup)
+    while (nom_livresup_verifier == False):
+        print("Ce livre existe n'existe pas \n veuillez saisir un autre nom")
         nom_livre_sup = ask_book_name()
         nom_livresup_verifier = check_book_name(nom_livre_sup)
-        while (nom_livresup_verifier == False):
-            print("Ce livre existe n'existe pas \n veuillez saisir un autre nom")
-            nom_livre = ask_book_name()
-            nom_livresup_verifier= check_book_name(nom_livre_sup)
-        n_livre_sup = input('Saisir le nom du nouveau livre : ')
-        with open("books.txt","r",encoding='utf-8') as supl_db:
-            sup_livre = supl_db.readlines(nom_livre_sup)
-            i = 0
-            trouve = False
-            while ( i < len(sup_livre) and not trouve):
-                l = sup_livre[i].split(",")
-                if nom_livre_sup in l :
-                    sup_livre.remove(sup_livre[i])
-                    print("Le livre {} est supprimé ".format(nom_livre_sup))
-                    trouve = True
-                    i += 1
-                if not trouve:
-                    print("Le livre n'existe pas")
-                else:
-                    with open("books.txt","w",encoding='utf-8') as sup2_livre_db:"""
-
+        if nom_livresup_verifier == True:
+            index_livre = catch_index("books.txt",nom_livre_sup)
+    with open("books.txt","r",encoding='utf-8') as supl_db:
+        sup_livre = supl_db.readlines()
+    del sup_livre[index_livre]
+    with open("books.txt","w",encoding='utf-8') as sup2_livre_db:
+        for h in sup_livre:
+            sup2_livre_db.write(h)
+    with open("booksread.txt","r",encoding='utf-8') as sup3_livre_db:
+        sup3_livre= sup3_livre_db.readlines()
 
 
 

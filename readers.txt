@@ -7,11 +7,15 @@ haripoteur,11,7,3,17
 ArchiBald_fx,16
 Beki,1,2,2
 Leo ,1,3,4
-Bereket,1,2,7
-bk,1,2,6
-Bereket Tadiwos ,1,2,2
-Adony,1,1,4
 mpl,1,2,2
 kij,1,2,1
 hytf,1,1,3
 JUDH,2,2,5
+lose,1,2,4
+Lionel,3,3,4
+Marcus,1,1,7
+Hope,1,1,1
+ki,1,3,7
+fgh,3,1,4
+huj_gh,1,1,1
+Bereket,1,2,4

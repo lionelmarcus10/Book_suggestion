@@ -8,8 +8,12 @@ Lili,5,9,11,1
 ArchiBald_fx,16
 Beki,7
 Leo ,19,15,18,5,4
-Bereket,19
 bk,8,4,9,7,4
-
 Adony,7,5,6,9
 JUDH,20
+BEKI,4
+Romane,16,17,7
+Lionel,17,20
+Hope,1
+huj_gh,0
+

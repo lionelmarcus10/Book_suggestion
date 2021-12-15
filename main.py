@@ -21,7 +21,8 @@ elif menu == 2:
         add_books()
     elif option_depot_livre == 3 :
         modify_book_title()
-
+    elif option_depot_livre == 4 :
+         supprimer_un_livre()
 
 elif menu == 3:
     demander_option_recommandation_livre()
