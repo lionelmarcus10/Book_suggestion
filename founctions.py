@@ -1,5 +1,6 @@
 from listes import *
 import time
+from math import sqrt
 
 
 """Partie I : Profils des lecteurs"""
@@ -7,25 +8,25 @@ import time
 """"Une fonction qui permet de demander le pseudonyme"""
 
 def demander_un_pseudonyme():
-    pseudonyme = str(input("Pseudonyme : "))
+    pseudonyme = str(input("Entrez votre pseudonyme : "))
     return pseudonyme
 
 
 """Une fonction qui demande le sexe de l'utilisateur """
 
 def demander_genre():
-    print(" Quel votre genre ? ","\n","Tapez les numéro qui vous correspondent")
+    print("Quel est votre genre ? ","\n","Tapez le numéro qui vous correspondent : ")
     print("1 - HOMME ")
     print("2 - FEMME ")
     print("3 - PEU IMPORTE ")
-    demander_genre=(input("..."))
-    while (demander_genre != '1' and demander_genre != '2' and demander_genre != '3' ) :
-        print(" Quel votre genre ? ", "\n", "Tapez les numéro qui vous correspondent")
+    genre=(input("..."))
+    while (genre != '1' and genre != '2' and genre != '3' ) :
+        print("Quel est votre genre ? ", "\n", "Tapez le numéro qui vous correspondent : ")
         print("1 - HOMME ")
         print("2 - FEMME ")
         print("3 - PEU IMPORTE ")
-        demander_genre = (input("..."))
-    return demander_genre
+        genre = (input("..."))
+    return genre
 
 
 """Une fonction qui demande  l'âge de l'utilisateur"""
@@ -37,7 +38,7 @@ def demander_age():
     print('3 - > 25 ans ')
     age = (input("..."))
     while (age != '1' and age != '2' and age != '3' ) :
-        print(" Quellez votre genre ? ", "\n", "Tapez les numéro qui vous correspond")
+        print(" Quel est votre genre ? ", "\n", "Tapez le numéro qui vous correspond")
         print("1 - <= 18 ans")
         print("2 - Entre 18 ans et 25 ans")
         print('3 - > 25 ans ')
@@ -50,69 +51,69 @@ def demander_age():
 
 def demander_style_de_lecture():
     print("Quel est votre style de lecture ? ","\n","Tapez le numéro qui vous correspond")
-    from listes import liste_style_de_lecture
-    for style in range(0,len(liste_style_de_lecture)):
-        print(style + 1,' - ',liste_style_de_lecture[style])
-    style_lecture = input("Saisir votre style de lecture : ")
-    while ( style_lecture < '1' or style_lecture > '7' or style_lecture != str(style_lecture)):
-        style_lecture =input("...")
 
-    return str(style_lecture)
+    for k in range(0,len(liste_style_de_lecture)):
+        print(k+ 1,' - ',liste_style_de_lecture[k])
+    style = input("Saisir le numéro corrospondant à votre style de lecture : ")
+    while ( style < '1' or style > '7' or style != str(style)):
+        style =input("Saisir le numéro corrospondant à votre style de lecture :")
+
+    return str(style)
 
 """"Une fonction qui donne le menu qui proposer par ce programme """
 
 def menu_principal():
-    print("Tapez le numéro qui vous correspond")
+    print("Tapez le numéro qui vous correspond : ")
     print("1 - Profils des lecteurs")
     print("2 - Visiter le dépôt des livres")
     print("3 - Recommandation")
-    choix_menu = (input(" ... "))
-    while ( choix_menu !='1' and choix_menu !='3' and choix_menu != '2'):
-        choix_menu = (input("Saissez à nouveau le numéro : "))
-    return int(choix_menu)
+    choix = (input(" ... "))
+    while ( choix !='1' and choix !='3' and choix!= '2'):
+        choix = (input("Saissez à nouveau le numéro : "))
+    return int(choix)
 
 """" une fonction qui permet .................."""
 
 def demander_option_profile():
-    print("Tapez le numéro qui vous correspond")
+    print("Tapez le numéro qui vous correspond :")
     print("1 - Ajouter un lecteur")
     print("2 - Afficher un lecteur")
     print("3 - Modifier un lecteur")
     print("4 - Supprimer un lecteur")
-    profil_menu = input(" ... ")
-    while (profil_menu != '1' and profil_menu  !='2' and profil_menu != '3'and profil_menu != '4'):
-        profil_menu = input(" Saisisez à nouveau le numéro : ")
-    return int(profil_menu)
+    profilmenu = input(" Saisisez le numéro : ")
+    while (profilmenu  != '1' and profilmenu  !='2' and profilmenu  != '3'and profilmenu  != '4'):
+        profilmenu  = input(" Saisisez à nouveau le numéro : ")
+    return int(profilmenu)
 
 def demander_option_depot_livre():
     print("Tapez le numéro qui vous correspond ")
     print(" 1 - Afficher la liste des livres dans le dépôt  \n 2 - Ajouter un livre au dépôt \n 3 - Modifier le titre d’un livre dans le dépôt \n 4 - Supprimer un livre du dépôt ")
-    dépot_menu = input(" ... ")
-    while (dépot_menu != '1' and dépot_menu !='2'and dépot_menu != '3'and dépot_menu != '4' ):
-        dépot_menu = input(" Saisisez à nouveau le numéro ")
-    return int(dépot_menu)
+    depotmenu = input(" ... ")
+    while (depotmenu != '1' and depotmenu !='2'and depotmenu != '3'and depotmenu != '4' ):
+        depotmenu = input(" Saisisez à nouveau le numéro ")
+    return int(depotmenu)
 
-"""une fonction qui recommande des livres ......"""
+"""une fonction qui affiche le menu de recommandation des livres......"""
 
 def demander_option_recommandation_livre():
     print("Tapez le numéro qui vous correspond")
     print("1 - Noter un livre")
     print("2 - Suggére des livres")
-    livrereco_menu = input(" ...  ")
-    while (livrereco_menu !='1' and livrereco_menu != '2'):
-        livrereco_menu = input(" Saisissez à nouveau le numéro ")
-    return int(livrereco_menu)
+    livrerecomenu = input("Saisissez le numéro ")
+    while (livrerecomenu !='1' and livrerecomenu != '2'):
+        livrerecomenu = input(" Saisissez à nouveau le numéro ")
+    return int(livrerecomenu)
 
 """ -----------------------------------------------------------------------------------------------------"""
-""""Ube fonction qui vérifie si un lecteur existe déja"""
+""""Une fonction qui vérifie si un lecteur existe déja"""
 
 def verifier_un_lecteur(nom_utilisateur):
-    with open('readers.txt' , 'r',encoding='utf-8') as profile_checkers:
-        profile_checker = profile_checkers.readlines()
-        for profile_data_number in range(len(profile_checker)):
-            profile_ind_data = profile_checker[profile_data_number]
-            profile_ind_data_value = profile_ind_data.split(",")
-            if profile_ind_data_value[0]== nom_utilisateur:
+    with open('readers.txt' , 'r',encoding='utf-8') as verifierprofil:
+        verifierprofillist = verifierprofil.readlines()
+        for i in range(len(verifierprofillist)):
+            profilindi = verifierprofillist[i]
+            valeur = profilindi.split(",")
+            if valeur[0]== nom_utilisateur:
                 return True
     return False
 
@@ -122,78 +123,78 @@ def verifier_un_lecteur(nom_utilisateur):
 
 def ajouter_un_lecteur():
 
-    nom_pseudo = demander_un_pseudonyme()
-    nom_pseudo_verifier = verifier_un_lecteur(nom_pseudo)
-    while nom_pseudo_verifier == True:
+    nompseudo = demander_un_pseudonyme()
+    nompseudoverifier = verifier_un_lecteur(nompseudo)
+    while nompseudoverifier == True:
         print("Ce lecteur existe déjà, veuillez saisir un nom different ")
-        nom_pseudo = demander_un_pseudonyme()
-        nom_pseudo_verifier = verifier_un_lecteur(nom_pseudo)
-    numero_genre = demander_genre()
-    numero_age = demander_age()
+        nompseudo = demander_un_pseudonyme()
+        nompseudoverifier = verifier_un_lecteur(nompseudo)
+    numerogenre = demander_genre()
+    numeroage = demander_age()
     numero_style_lecture = demander_style_de_lecture()
     with open("readers.txt", "a",encoding='utf-8') as readers_db:
-        readers_db.write(nom_pseudo +"," + numero_genre + ','+ numero_age +','+ numero_style_lecture+ '\n')
-    books_read = ask_user_books_read()
-    books_read_str = [str(i) for i in books_read]
-    books_read_to_file = ','.join(books_read_str)
-    with open("booksread.txt", "a", encoding='utf-8') as books_read_db:
-        books_read_db.write(nom_pseudo + ','+ books_read_to_file + '\n')
+        readers_db.write(nompseudo +"," + numerogenre + ','+ numeroage +','+ numero_style_lecture+ '\n')
+    booksread = demander_livre_lu()
+    booksreadstr = [str(i) for i in booksread]
+    books_read_to_file = ','.join(booksreadstr)
+    with open("booksread.txt", "a", encoding='utf-8') as booksreaddb:
+        booksreaddb.write(nompseudo + ','+ books_read_to_file + '\n')
 
 
 
 """"Une fonction qui supprime un lecteur"""
 def supprimer_un_lecteur():
-    nom_a_sup = demander_un_pseudonyme()
-    nom_a_sup_verifier = verifier_un_lecteur(nom_a_sup)
-    if nom_a_sup_verifier == True :
-        index_lecteur= catch_index('booksread.txt',nom_a_sup)
-    while nom_a_sup_verifier == False:
+    nomsup = demander_un_pseudonyme()
+    nomsupverifier = verifier_un_lecteur(nomsup)
+    if nomsupverifier == True :
+        indexlecteur= trouver_index('booksread.txt',nomsup)
+    while nomsupverifier == False:
         print("Ce lecteur n'existe pas, veuillez saisir un nom de lecteur correcte ")
-        nom_a_sup = demander_un_pseudonyme()
-        nom_a_sup_verifier = verifier_un_lecteur(nom_a_sup)
-        if nom_a_sup_verifier == True:
-            index_lecteur = catch_index('booksread.txt', nom_a_sup)
+        nomsup = demander_un_pseudonyme()
+        nomsupverifier = verifier_un_lecteur(nomsup)
+        if nomsupverifier == True:
+            indexlecteur = trouver_index('booksread.txt', nomsup)
     with open("readers.txt", "r",encoding='utf-8') as readers_db:
-        sup_lecteur= readers_db.readlines()
+        suplecteur= readers_db.readlines()
         i=0
         trouve = False
-        while( i<len(sup_lecteur) and not trouve):
-            l= sup_lecteur[i].split(",")
-            if nom_a_sup in l :
-                 sup_lecteur.remove(sup_lecteur[i])
-                 print('lecteur {} deleted'.format(nom_a_sup))
+        while( i<len(suplecteur) and not trouve):
+            l= suplecteur[i].split(",")
+            if nomsup in l :
+                 suplecteur.remove(suplecteur[i])
+                 print('lecteur {} deleted'.format(nomsup))
                  trouve=True
             i+=1
         if not trouve:
             print("Ce lecteur n'existe pas")
         else:
-            with open("readers.txt", "w",encoding='utf-8') as readers_db:
-                for lecteur_restant in sup_lecteur:
-                    readers_db.write(lecteur_restant)
+            with open("readers.txt", "w",encoding='utf-8') as readersdb:
+                for lecteurrestant in suplecteur:
+                    readersdb.write(lecteurrestant)
 
 
-    with open("booksread.txt","r",encoding='utf-8') as booksread_db:
-        sup_lecteur_booksread_list = booksread_db.readlines()
+    with open("booksread.txt","r",encoding='utf-8') as booksreaddb:
+        suplecteurbooksreadlist = booksreaddb.readlines()
 
-        del sup_lecteur_booksread_list[index_lecteur]
-        with open("booksread.txt","w",encoding='utf-8') as booksred_db2:
-            for l in sup_lecteur_booksread_list:
-                booksred_db2.write(l)
+        del suplecteurbooksreadlist[indexlecteur]
+        with open("booksread.txt","w",encoding='utf-8') as booksreddb2:
+            for l in suplecteurbooksreadlist:
+                booksreddb2.write(l)
 
 
 
 """"la fonction afficher_un_lecteur peut afficher le profil d’un lecteur donné """
 
 def afficher_un_lecteur():
-     af_lecteur = demander_un_pseudonyme()
-     af_lecteur_verifier = verifier_un_lecteur( af_lecteur)
-     while af_lecteur_verifier == False:
-         af_lecteur = demander_un_pseudonyme()
-         af_lecteur_verifier = verifier_un_lecteur( af_lecteur)
-     with open("readers.txt","r",encoding='utf-8') as affichier_db :
+     aflecteur = demander_un_pseudonyme()
+     aflecteurverifier = verifier_un_lecteur( aflecteur)
+     while aflecteurverifier == False:
+         aflecteur = demander_un_pseudonyme()
+         aflecteurverifier = verifier_un_lecteur( aflecteur)
+     with open("readers.txt","r",encoding='utf-8') as affichier_db:
             affichier_lecteur = affichier_db.readlines()
      for lines in affichier_lecteur:
-         if  af_lecteur in lines:
+         if aflecteur in lines:
               lines = lines.replace(","," ").split()
               lines[1] = liste_genre[int(lines[1])-1]
               lines[2] = liste_age[int(lines[2]) - 1]
@@ -203,15 +204,26 @@ def afficher_un_lecteur():
 
 
      with open("booksread.txt","r",encoding='utf-8') as bookread_db :
-         afficher_lecteur = bookread_db.readlines()
-         i = 0
-         trouve = False
-         while ( i < len(affichier_lecteur) ):
-             afficher_lecteur1= afficher_lecteur[i].split(",")
-             if af_lecteur == afficher_lecteur1[0]:
-                 livres_lue_index = afficher_lecteur1[1:]
-                 print(livres_lue_index)
-             i +=1
+         lecteurs = bookread_db.readlines()
+         livreluindex = trouver_index("booksread.txt",aflecteur)
+         lecteur= lecteurs[livreluindex].split(",")
+         for z in range(1,len(lecteur)):
+             lecteur[z]=int(lecteur[z])
+
+         if aflecteur == lecteur[0]:
+             livreslu = lecteur[1:]
+
+             with open("books.txt","r",encoding='utf-8') as books_db:
+                 livres1= books_db.readlines()
+                 if livreslu == ["0"]:
+                     print("{} n'a lu auccun livre".format(aflecteur))
+                 else:
+                     print("{} a lu : ".format(aflecteur),"\n")
+                     for i in livreslu:
+                        print("-",livres1[i])
+
+
+
 
 
 
@@ -236,63 +248,63 @@ i+=1"""
 
 
 def modifier_un_lecteur():
-    nom_modif = demander_un_pseudonyme()
-    nom_modif_verifier = verifier_un_lecteur(nom_modif)
-    index_profile = catch_index('readers.txt', nom_modif)
-    while nom_modif_verifier == False:
+    nommodif = demander_un_pseudonyme()
+    nommodifverifier = verifier_un_lecteur(nommodif)
+    index_profile = trouver_index('readers.txt', nommodif)
+    while nommodifverifier == False:
         print("Ce lecteur n'existe pas, veuillez saisir un nom de lecteur correcte ")
-        nom_modif = demander_un_pseudonyme()
-        nom_modif_verifier = verifier_un_lecteur(nom_modif)
+        nommodif = demander_un_pseudonyme()
+        nommodifverifier = verifier_un_lecteur(nommodif)
 
-    modifi_options = input("Veuillez espacer les chiffres : ")
-    modifi_options = modifi_options.split()
+    modifioptions = input("Veuillez espacer les chiffres : ")
+    modifioptions = modifioptions.split()
 
-    modifi_options_error = not_number_input(modifi_options)
-    if modifi_options_error == False:
-        modifi_options = [int(i) for i in modifi_options]
+    modiffioptionerror = pas_entier(modifioptions)
+    if modiffioptionerror == False:
+        modifi_options = [int(i) for i in modifioptions]
         for number_mod in modifi_options:
             if number_mod < 1 or number_mod > 5:
-                modifi_options_error = True
-    while modifi_options_error == True or modifi_options == []:
-        modifi_options = input("Veuillez espacer les chiffres : ")
-        modifi_options = modifi_options.split()
-        modifi_options_error = not_number_input(modifi_options)
-        if modifi_options_error == False:
-            modifi_options = [int(i) for i in modifi_options]
-            for number_mod in modifi_options:
+                modiffioptionerror = True
+    while modiffioptionerror == True or modifioptions == []:
+        modifioptions = input("Veuillez espacer les chiffres : ")
+        modifioptions = modifioptions.split()
+        modiffioptionerror = pas_entier(modifioptions)
+        if modiffioptionerror == False:
+            modifi_options = [int(i) for i in modifioptions]
+            for number_mod in modifioptions:
                 if number_mod < 1 or number_mod > 5:
-                    modifi_options_error = True
+                    modiffioptionerror = True
 
-    for options in modifi_options:
+    for options in modifioptions:
         if options == 1:
-            new_pseudo_mod = demander_un_pseudonyme()
-            new_pseudo_verf = verifier_un_lecteur(new_pseudo_mod)
-            while (new_pseudo_verf == True):
+            npseudomod = demander_un_pseudonyme()
+            npseudoverfif = verifier_un_lecteur(npseudomod)
+            while (npseudoverfif == True):
                 print('Ce lecteur existe déja. \n veuillez saisir un autre pseudsonyme')
-                new_pseudo_mod = demander_un_pseudonyme()
-                new_pseudo_verf = verifier_un_lecteur(new_pseudo_mod)
+                npseudomod = demander_un_pseudonyme()
+                npseudoverfif = verifier_un_lecteur(npseudomod)
             with open('readers.txt', 'r', encoding='utf-8') as r_pmod:
-                r_pmod_list = r_pmod.readlines()
+                rpmodlist = r_pmod.readlines()
                 with open('readers.txt', 'w', encoding='utf-8') as mod_p_apply:
-                    for lines in range(len(r_pmod_list)):
-                        lines_modp = r_pmod_list[lines].split(',')
-                        if lines_modp[0] == nom_modif:
-                            r_pmod_list[lines] = new_pseudo_mod + ',' + ','.join(lines_modp[1:])
-                            mod_p_apply.write(r_pmod_list[lines])
+                    for lines in range(len(rpmodlist)):
+                        linesmodp = rpmodlist[lines].split(',')
+                        if linesmodp[0] == nommodif:
+                            rpmodlist[lines] = npseudomod + ',' + ','.join(linesmodp[1:])
+                            mod_p_apply.write(rpmodlist[lines])
                         else:
-                            mod_p_apply.write(r_pmod_list[lines])
+                            mod_p_apply.write(rpmodlist[lines])
 
         elif options == 2:
-            new_genre_mod = demander_genre()
-            while (new_genre_mod != '1' and new_genre_mod != '2' and new_genre_mod != '3'):
-                new_genre_mod = demander_genre()
+            ngenremod = demander_genre()
+            while (ngenremod != '1' and ngenremod != '2' and ngenremod != '3'):
+                ngenremod = demander_genre()
             with open('readers.txt', 'r', encoding='utf-8') as r_gmod:
                 r_gmod_list = r_gmod.readlines()
                 with open('readers.txt', 'w', encoding='utf-8') as mod_g_apply:
                     for lines in range(0, len(r_gmod_list)):
                         lines_modg = r_gmod_list[lines].split(',')
                         if lines == index_profile:
-                            lines_modg[1] = new_genre_mod
+                            lines_modg[1] = ngenremod
                             r_gmod_list[lines] = ','.join(lines_modg)
                             mod_g_apply.write(r_gmod_list[lines])
                         else:
@@ -331,7 +343,7 @@ def modifier_un_lecteur():
                         else:
                             mod_sl_apply.write(r_slmod_list[lines])
         elif options == 5:
-            new_books_read_mod = ask_user_books_read()
+            modifier_livre_lu(nommodif)
 
 """"Fin de la 1er parti"""
 
@@ -339,49 +351,50 @@ def modifier_un_lecteur():
 
 
 
+
 """Partie II : Visiter le dépôt des livres"""
 
-def ask_book_name():
+def demander_le_nom_livre():
     book_name = input('Saisir le nom du livre : ')
     return book_name
 
 
-def check_book_name(book_to_check):
+def verifier_livre(nom_livre):
     with open('books.txt' , 'r',encoding='utf-8') as books_checkers:
         list_books_checker = books_checkers.readlines()
         for index_books in range(len(list_books_checker)):
             books_ind_data = list_books_checker[index_books]
-            if books_ind_data == book_to_check + '\n':
+            if books_ind_data == nom_livre + '\n':
                 return True
     return False
 
 
-def display_books():
-    with open('books.txt','r',encoding='utf-8') as display_books:
+def afficher_un_livre():
+    with open('books.txt','r',encoding='utf-8') as afficher_un_livre:
         books_names_index = 1
-        for books_names in display_books:
+        for books_names in afficher_un_livre:
             print('{} - {}'.format(books_names_index,books_names), end='')
             books_names_index+=1
 
 
-def add_books():
-    book_name = ask_book_name()
-    book_name_verified = check_book_name(book_name)
+def ajouter_un_livre():
+    book_name = demander_le_nom_livre()
+    book_name_verified = verifier_livre(book_name)
     while (book_name_verified == True):
         print('Ce livre existe déjà \n veuillez saisir un autre nom')
-        book_name = ask_book_name()
-        book_name_verified = check_book_name(book_name)
+        book_name = demander_le_nom_livre()
+        book_name_verified = verifier_livre(book_name)
     with open("books.txt", "a",encoding='utf-8') as books_db:
         books_db.write(book_name + '\n')
 
 
-def modify_book_title():
-    book_title = ask_book_name()
-    book_title_verified = check_book_name(book_title)
+def modifier_un_livre():
+    book_title = demander_le_nom_livre()
+    book_title_verified = verifier_livre(book_title)
     while (book_title_verified == False):
         print("Ce livre existe n'existe pas \n veuillez saisir un autre nom")
-        book_title = ask_book_name()
-        book_title_verified = check_book_name(book_title)
+        book_title = demander_le_nom_livre()
+        book_title_verified = verifier_livre(book_title)
     new_title_of_book = input('Saisir le nom du nouveau livre : ')
     with open("books.txt", "r", encoding='utf-8') as books_db:
         list_books_db = books_db.readlines()
@@ -396,30 +409,11 @@ def modify_book_title():
 
 
 
-
-
-""" A mettre dans ajouter un lecteur après le premier WITH
-    books_read = ask_books_read()
-    books_read_str = [str(i) for i in books_read]
-    books_read_to_file = ','.join(books_read_str)
-    with open("booksread.txt", "a",encoding='utf-8') as books_read_db:
-        books_read_db.write(nom_pseudo+','books_read_to_file + '\n')
-
-    """
-
-
-
-
-
-
-# securiser ask style de lecture et  copier modify_user
-# check profile remplacer le nom de la variable en paramètre
-
 """fonction utilisé dans plusieur parti"""
 
 
-def modify_user_books_read(my_user_pseudo_to_modify):
-    books_read_2 = ask_user_books_read()
+def modifier_livre_lu(my_user_pseudo_to_modify):
+    books_read_2 = demander_livre_lu()
     with open("booksread.txt", "r", encoding='utf-8') as books_read_modif_db:
         books_read_modif_db_list = books_read_modif_db.readlines()
         with open("booksread.txt", "w", encoding='utf-8') as books_read_modif_db2:
@@ -438,20 +432,20 @@ def modify_user_books_read(my_user_pseudo_to_modify):
 
 
 
-def ask_user_books_read():
+def demander_livre_lu():
     print("quels sont les livres que vous avez déjà lu ? : ")
     time.sleep(3)
-    display_books()
+    afficher_un_livre()
     time.sleep(3)
     print('Veuillez espacer les chiffres des lettres des livres que vous avez lu')
     books_read = input('Veuillez saisir les chiffres :').split()
     while (books_read == []):
         print('Veuillez espacer les chiffres des lettres des livres que vous avez lu')
         books_read = input('Veuillez saisir les chiffres :').split()
-    error_in_books_read = not_number_input(books_read)
+    error_in_books_read = pas_entier(books_read)
     if error_in_books_read == False:
         books_read = [int(b_values) for b_values in books_read]
-        books_read_in_books = listnumber_in_list_books_number(books_read)
+        books_read_in_books = numero_de_livre_validation(books_read)
         if books_read_in_books == False:
             print("un des numéro saisi ne se trouve pas dans les numéro attribués aux livres.")
     else:
@@ -464,10 +458,10 @@ def ask_user_books_read():
         while (books_read == []):
             print('Veuillez espacer les chiffres des lettres des livres que vous avez lu')
             books_read = input('Veuillez saisir les chiffres : ').split()
-        error_in_books_read = not_number_input(books_read)
+        error_in_books_read = pas_entier(books_read)
         if error_in_books_read == False:
             books_read = [int(b_values) for b_values in books_read]
-            books_read_in_books = listnumber_in_list_books_number(books_read)
+            books_read_in_books = numero_de_livre_validation(books_read)
             if (books_read_in_books == False):
                 print('un des numéro saisi ne se trouve pas dans les numéro attribués aux livres.')
         else:
@@ -475,24 +469,34 @@ def ask_user_books_read():
             print("veuillez ne pas écrire de lettre ou utiliser d'autres caractères mis a part les chiffres. ")
     return books_read
 
+# Fonction qui affiche des consignes / conseils a l'utilisateur
+def explication_processus():
+    time.sleep(1)
+    print('Bienvenu \n')
+    time.sleep(2)
+    print("Nous vous prions de bien vouloir suivre les consignes \n")
+    time.sleep(3)
+    print("Tout au long de ce programme, vous allez devoir lire attentivement ce qui est écrit \n")
+    time.sleep(2)
 
-def catch_index(file_name, name_to_catch_index):
+
+def trouver_index(file_name, name_to_trouver_index):
     if file_name =='books.txt':
-        with open(file_name, 'r', encoding='utf-8') as catch_index_var:
-            list_content = catch_index_var.readlines()
+        with open(file_name, 'r', encoding='utf-8') as trouver_index_var:
+            list_content = trouver_index_var.readlines()
         for content in range(len(list_content)):
-            if name_to_catch_index + '\n' == list_content[content]:
+            if name_to_trouver_index + '\n' == list_content[content]:
                 return content
     else:
-        with open(file_name, 'r', encoding='utf-8') as catch_index_var:
-            list_content = catch_index_var.readlines()
+        with open(file_name, 'r', encoding='utf-8') as trouver_index_var:
+            list_content = trouver_index_var.readlines()
         for content in range(len(list_content)):
             list_content[content] = list_content[content].split(',')
-            if name_to_catch_index == list_content[content][0]:
+            if name_to_trouver_index == list_content[content][0]:
                 return content
 
 
-def not_number_input(mylist):
+def pas_entier(mylist):
     for i in range(0, len(mylist)):
         for element in error_element:
             if element in mylist[i]:
@@ -500,7 +504,7 @@ def not_number_input(mylist):
     return False
 
 
-def listnumber_in_list_books_number(nlist):
+def numero_de_livre_validation(nlist):
     with open('books.txt', 'r', encoding='utf-8') as books_info_file:
         number_book = len(books_info_file.readlines())
     for elemen_ind in nlist:
@@ -510,24 +514,53 @@ def listnumber_in_list_books_number(nlist):
 
 
 def supprimer_un_livre():
-    nom_livre_sup = ask_book_name()
-    nom_livresup_verifier = check_book_name(nom_livre_sup)
-    if nom_livresup_verifier == True:
-        index_livre = catch_index("books.txt",nom_livre_sup)
-    while (nom_livresup_verifier == False):
+    nomlivresup = demander_le_nom_livre()
+    nomlivresupverifier = verifier_livre(nomlivresup)
+    if nomlivresupverifier == True:
+        indexlivre = trouver_index("books.txt",nomlivresup)
+    while (nomlivresupverifier == False):
         print("Ce livre existe n'existe pas \n veuillez saisir un autre nom")
-        nom_livre_sup = ask_book_name()
-        nom_livresup_verifier = check_book_name(nom_livre_sup)
-        if nom_livresup_verifier == True:
-            index_livre = catch_index("books.txt",nom_livre_sup)
-    with open("books.txt","r",encoding='utf-8') as supl_db:
-        sup_livre = supl_db.readlines()
-    del sup_livre[index_livre]
-    with open("books.txt","w",encoding='utf-8') as sup2_livre_db:
-        for h in sup_livre:
-            sup2_livre_db.write(h)
-    with open("booksread.txt","r",encoding='utf-8') as sup3_livre_db:
-        sup3_livre= sup3_livre_db.readlines()
+        nomlivresup = demander_le_nom_livre()
+        nomlivresupverifier = verifier_livre(nomlivresup)
+        if nomlivresupverifier == True:
+            indexlivre = trouver_index("books.txt",nomlivresup)
+    with open("books.txt","r",encoding='utf-8') as supldb:
+        suplivre = supldb.readlines()
+    del suplivre[indexlivre]
+    """with open("books.txt","w",encoding='utf-8') as sup2livredb:
+        for h in suplivre:
+            sup2livredb.write(h)"""
+    indexlivre+=1
+    with open("booksread.txt","r",encoding='utf-8') as sup3livredb:
+        sup3livre= sup3livredb.readlines()
+    #with open("booksread.txt","w",encoding='utf-8')as sup3livredb:
+    for z in range(0,len(sup3livre)):
+        sup3livre[z]= sup3livre[z].split(',')
+        for o in range(1,len(sup3livre[z])):
+            sup3livre[z][o] = int(sup3livre[z][o])
+            if sup3livre[z][o] == indexlivre:
+                sup3livre[z][o] = 0
+            elif sup3livre[z][o] > indexlivre:
+                sup3livre[z][o] -= 1
+            sup3livre[z][o] = str(sup3livre[z][o])
+        ",".join(sup3livre[z])
+        print(sup3livre)
+
+
+
+
+
+
+""" for i in range(0,len(sup3livre)):
+sup3livre[i]=sup3livre[i].split(",")
+for j in range(1,len(sup3livre[i])):
+sup3livre[i][j]=int(sup3livre[i][j])
+if indexlivre == sup3livre[i][j]:
+#del sup3livre[i][j]
+elif indexlivre < sup3livre[i][j]:
+sup3livre[i][j]= sup3livre[i][j]-1"""
+
+
 
 
 
@@ -543,6 +576,138 @@ def supprimer_un_livre():
 
 """"Partie III : Recommandation"""
 
+
+# -----------------------------------------------------------------------------------------------------------------------------
+
+"""def matrice_init():
+    with open('books.txt', 'r') as nombre_de_livre:
+        nombre_de_livre = len(nombre_de_livre.readlines())
+    with open('readers.txt', 'r') as nombre_de_lecteur:
+        nombre_de_lecteur = len(nombre_de_lecteur.readlines())
+    L = []
+    for i in range(0, nombre_de_lecteur):
+        L1 = []
+        for j in range(0, nombre_de_livre):
+            L1.append(str(0))
+        L.append(L1)
+
+    for z in range(0, len(L)):
+        L[z] = ','.join(L[z])
+    with open('matrice.txt', 'w') as matrice_initiation:
+        for k in L:
+            matrice_initiation.write(k + '\n')
+
+
+matrice_init()"""
+
+
+# matrice refresh ---> supression , ajout, modifier
+
+# appel de la fonction qui crée la matrice
+
+
+
+
+# Fonction pour noter un livre
+def noter_un_livre(pseudo):
+    x = verifier_un_lecteur(pseudo)
+    while x == False:
+        print("Cet utilisateur n'existe pas veuillez saisir un autre nom")
+        x = verifier_un_lecteur(pseudo)
+    index_lecteur = trouver_index('readers.txt', pseudo)
+    print("Entrez le nom du livre que vous voulez noter : ")
+    livre_note = demander_le_nom_livre()
+    y = verifier_livre(livre_note)
+    while y == False:
+        print("Ce livre n'existe pas, veuillez saisir un autre nom de livre")
+        livre_note = demander_le_nom_livre()
+        y = verifier_livre(livre_note)
+    index_livre = trouver_index("books.txt", livre_note)
+    note = input("Attribuez une note sur 5 au livre : ")
+    while (note > '5' and note < '1'):
+        note = input("Attribuez une note (un entier ) entre 1 et 5 au livre : ")
+
+    with open("matrice.txt","r",encoding='utf-8') as mise_a_jour_matrice:
+        matrice1 = mise_a_jour_matrice.readlines()
+    for i in range(0,len(matrice1)):
+        matrice1[i] = matrice1[i].split(",")
+        for z in range(0,len(matrice1[i])):
+            matrice1[i][z] = int(matrice1[i][z])
+    matrice1[index_lecteur][index_livre] = note
+    for a in range(0,len(matrice1)):
+        for k in range(0,len(matrice1[a])):
+            matrice1[a][k] = str(matrice1[a][k])
+        matrice1[a] = ','.join(matrice1[a])
+    for b in range(0,len(matrice1)):
+        matrice1[b] = matrice1 + '\n'
+
+    with open("matrice.txt",'w',encoding='utf-8') as matrice2:
+        for m in matrice1:
+            matrice2.write(m)
+
+
+# utilisation du paramètre *args autorisé par la prof ASMA GABIS
+# fonction pour retourner en arrière ou au menu principal après une action
+def retour_menu():
+    x = input("Saisir 1 pour retourner en arrière et 2 pour retourner au menu principal : ")
+    while (x != '1' and x != '2'):
+        x = input("Saisir 1 pour retourner en arrière et 2 pour retourner au menu principal : ")
+    menu_de_lancement(x)
+
+
+# fonction pour le menu de lancement
+def menu_de_lancement(*arg):
+    if arg:
+        menu = arg[0]
+    else:
+        menu = menu_principal()
+
+    if menu == 1:
+        option_utilisateur_profile = demander_option_profile()
+        if option_utilisateur_profile == 1:
+            ajouter_un_lecteur()
+        elif option_utilisateur_profile == 2:
+            afficher_un_lecteur()
+        elif option_utilisateur_profile == 3:
+            modifier_un_lecteur()
+        elif option_utilisateur_profile == 4:
+            supprimer_un_lecteur()
+
+    elif menu == 2:
+        option_depot_livre = demander_option_depot_livre()
+        if option_depot_livre == 1:
+            afficher_un_livre()
+        elif option_depot_livre == 2:
+            ajouter_un_livre()
+        elif option_depot_livre == 3:
+            modifier_un_livre()
+        elif option_depot_livre == 4:
+            supprimer_un_livre()
+
+    elif menu == 3:
+        option_recommandation = demander_option_recommandation_livre()
+        if option_recommandation == 1:
+            pass
+        elif option_recommandation == 2:
+            pass
+
+if __name__ == '__main__':
+
+    def matrice_recommandation():
+        with open("matrice.txt",'r',encoding='utf-8') as matrice1:
+            matrice2 = matrice1.readlines()
+        for z in range(0,len(matrice2)):
+            matrice2[z] = matrice2[z].split(' ')
+            for i in range(0,len(matrice2[z])):
+                matrice2[z][i] = int(matrice2[z][i])
+
+
+        # matrice 2
+        """for j in range(0,len(matrice2)):"""
+
+
+
+    """matrice_recommandation()"""
 
 
 
