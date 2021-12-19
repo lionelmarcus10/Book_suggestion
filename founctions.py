@@ -1,5 +1,6 @@
 from listes import *
 import time
+import timeit
 from math import sqrt
 
 
@@ -139,6 +140,13 @@ def ajouter_un_lecteur():
     books_read_to_file = ','.join(booksreadstr)
     with open("booksread.txt", "a", encoding='utf-8') as booksreaddb:
         booksreaddb.write(nompseudo + ','+ books_read_to_file + '\n')
+    h = input("Voulez-vous noter un livre ? Tapez Oui ou Non :")
+    while(h!='Oui' and h !='Non'):
+        h = input("Voulez-vous noter un livre ? Tapez Oui ou Non :")
+    if h == 'Oui':
+        noter_un_livre(nompseudo)
+
+    retour_menu(1)
 
 
 
@@ -181,6 +189,16 @@ def supprimer_un_lecteur():
             for l in suplecteurbooksreadlist:
                 booksreddb2.write(l)
 
+    # prendre son index
+    with open('matrice.txt','r') as m1:
+        matrice = m1.readlines()
+    matrice.remove(matrice[indexlecteur])
+    with open('matrice.txt', 'w') as m1:
+        for v in range(0,len(matrice)):
+            m1.write(matrice[v])
+
+    retour_menu(1)
+
 
 
 """"la fonction afficher_un_lecteur peut afficher le profil d’un lecteur donné """
@@ -220,25 +238,9 @@ def afficher_un_lecteur():
                  else:
                      print("{} a lu : ".format(aflecteur),"\n")
                      for i in livreslu:
-                        print("-",livres1[i])
 
-
-
-
-
-
-
-"""   for d in range(0,len(livres_lue_index)):
-     livres_lue_index[d] = int(livres_lue_index[d])
- with open("books.txt","r",encoding='utf-8') as books_db:
-     livres = books_db.readlines()
-     for z in range(0,len(livres_lue_index)):
-         print(livres[livres_lue_index[z]],end='-')
-
-
-trouve = True
-i+=1"""
-
+                         print("-",livres1[i-1])
+     retour_menu(1)
 
 
 
@@ -255,14 +257,14 @@ def modifier_un_lecteur():
         print("Ce lecteur n'existe pas, veuillez saisir un nom de lecteur correcte ")
         nommodif = demander_un_pseudonyme()
         nommodifverifier = verifier_un_lecteur(nommodif)
-
+    print("Tapez: \n1-Pour modifier votre Pseudonym\n2-Pour modifier votre genre\n3-Pour modifier votre age\n4-Pour modifier votre style de lecture\n5-Pour modifier les livres lu")
     modifioptions = input("Veuillez espacer les chiffres : ")
     modifioptions = modifioptions.split()
 
     modiffioptionerror = pas_entier(modifioptions)
     if modiffioptionerror == False:
-        modifi_options = [int(i) for i in modifioptions]
-        for number_mod in modifi_options:
+        modifioptions = [int(i) for i in modifioptions]
+        for number_mod in modifioptions:
             if number_mod < 1 or number_mod > 5:
                 modiffioptionerror = True
     while modiffioptionerror == True or modifioptions == []:
@@ -270,14 +272,14 @@ def modifier_un_lecteur():
         modifioptions = modifioptions.split()
         modiffioptionerror = pas_entier(modifioptions)
         if modiffioptionerror == False:
-            modifi_options = [int(i) for i in modifioptions]
+            modifioptions = [int(i) for i in modifioptions]
             for number_mod in modifioptions:
-                if number_mod < 1 or number_mod > 5:
+                if int(number_mod) < 1 or int(number_mod) > 5:
                     modiffioptionerror = True
 
     for options in modifioptions:
         if options == 1:
-            npseudomod = demander_un_pseudonyme()
+            npseudomod = input('Entrez votre nouveau pseudonyme :')
             npseudoverfif = verifier_un_lecteur(npseudomod)
             while (npseudoverfif == True):
                 print('Ce lecteur existe déja. \n veuillez saisir un autre pseudsonyme')
@@ -326,24 +328,40 @@ def modifier_un_lecteur():
                         else:
                             mod_a_apply.write(r_amod_list[lines])
         elif options == 4:
-            new_style_lecture_mod = demander_style_de_lecture()
-            number_input_style_de_lecture = new_style_lecture_mod in ['{}'.format(i) for i in range(1, 8)]
+            nstylelecturemod = demander_style_de_lecture()
+            number_input_style_de_lecture = nstylelecturemod in ['{}'.format(i) for i in range(1, 8)]
             while (number_input_style_de_lecture == False):
-                new_style_lecture_mod_mod = demander_style_de_lecture()
-                number_input_style_de_lecture = new_style_lecture_mod in ['{}'.format(i) for i in range(1, 8)]
+                nstylelecturemod = demander_style_de_lecture()
+                number_input_style_de_lecture = nstylelecturemod in ['{}'.format(i) for i in range(1, 8)]
+
             with open('readers.txt', 'r', encoding='utf-8') as r_slmod:
-                r_slmod_list = r_slmod.readlines()
+                rslmodlist = r_slmod.readlines()
                 with open('readers.txt', 'w', encoding='utf-8') as mod_sl_apply:
-                    for lines in range(0, len(r_slmod_list)):
-                        lines_modsl = r_slmod_list[lines].split(',')
+                    for lines in range(0, len(rslmodlist)):
+                        lines_modsl = rslmodlist[lines].split(',')
                         if lines == index_profile:
-                            lines_modsl[3] = new_style_lecture_mod
-                            r_slmod_list[lines] = ','.join(lines_modsl)
-                            mod_sl_apply.write(r_slmod_list[lines])
+                            lines_modsl[3] = str(nstylelecturemod)+'\n'
+                            rslmodlist[lines] = ','.join(lines_modsl)
+                            mod_sl_apply.write(rslmodlist[lines])
                         else:
-                            mod_sl_apply.write(r_slmod_list[lines])
+                            mod_sl_apply.write(rslmodlist[lines])
+
         elif options == 5:
-            modifier_livre_lu(nommodif)
+            if 1 not in modifioptions:
+                modifier_livre_lu(nommodif)
+            else:
+                if modifioptions.index(5)<modifioptions.index(1):
+                    modifier_livre_lu(nommodif)
+                else:
+                        x = input('Entrez une nouvelle fois votre pseudo :')
+                        y = verifier_un_lecteur(x)
+                        if y == False:
+                            print("Le pseudonyme saisi est incorrecte la modification n'a pas pu etre réalisé")
+                        else:
+                            modifier_livre_lu(x)
+
+
+    retour_menu(1)
 
 """"Fin de la 1er parti"""
 
@@ -370,11 +388,13 @@ def verifier_livre(nom_livre):
 
 
 def afficher_un_livre():
-    with open('books.txt','r',encoding='utf-8') as afficher_un_livre:
+    with open('books.txt','r',encoding='utf-8') as afficherunlivre:
         books_names_index = 1
-        for books_names in afficher_un_livre:
-            print('{} - {}'.format(books_names_index,books_names), end='')
+        for books_names in afficherunlivre:
+            print('{} - {}'.format(books_names_index,books_names))
+            time.sleep(0.2)
             books_names_index+=1
+
 
 
 def ajouter_un_livre():
@@ -386,6 +406,20 @@ def ajouter_un_livre():
         book_name_verified = verifier_livre(book_name)
     with open("books.txt", "a",encoding='utf-8') as books_db:
         books_db.write(book_name + '\n')
+
+    with open('matrice.txt','r') as m1:
+        matrice = m1.readlines()
+    with open('matrice.txt', 'w') as m1:
+        for a in range(0,len(matrice)):
+            matrice[a] = matrice[a].split()
+            for b in range(0,len(matrice[a])):
+                matrice[a][b] = int(matrice[a][b])
+            matrice[a].append('0\n')
+            for c in range(0,len(matrice[a])-1):
+                matrice[a][c] = str(matrice[a][c])
+            matrice[a] = ' '.join(matrice[a])
+            m1.write(matrice[a])
+    retour_menu(2)
 
 
 def modifier_un_livre():
@@ -405,39 +439,72 @@ def modifier_un_livre():
                     print(book_title,'modified to ', new_title_of_book)
                 else:
                     books_modification_part.write(books)
+    retour_menu(2)
 
 
 
+    """                     fonction utilisé dans plusieur parti                    """
 
-"""fonction utilisé dans plusieur parti"""
 
-
-def modifier_livre_lu(my_user_pseudo_to_modify):
+def modifier_livre_lu(pseudo):
     books_read_2 = demander_livre_lu()
-    with open("booksread.txt", "r", encoding='utf-8') as books_read_modif_db:
-        books_read_modif_db_list = books_read_modif_db.readlines()
-        with open("booksread.txt", "w", encoding='utf-8') as books_read_modif_db2:
-            for index_info in range(len(books_read_modif_db_list)):
-                infos_split = books_read_modif_db_list[index_info].split(',')
-                if infos_split[0] == my_user_pseudo_to_modify:
-                    books_read_modif_db_list[index_info] = [my_user_pseudo_to_modify] + [str(i) for i in books_read_2]
-                    books_read_modif_db_list[index_info] = ','.join(books_read_modif_db_list[index_info])
-                    books_read_modif_db2.write(books_read_modif_db_list[index_info] + '\n')
+    with open("booksread.txt", "r", encoding='utf-8') as booksreadmodifdb:
+        livrelumodiflist = booksreadmodifdb.readlines()
+        ancienlivrematrice = livrelumodiflist
+
+        # recuperer ancien livres => ancienlivrematrice + chercher sa ligne et append pour trouver indices
+        indexnom = trouver_index('booksread.txt', pseudo)
+        ancienlivres = ancienlivrematrice[indexnom].split(',')[1:]
+        for a in range(0, len(ancienlivres)):
+            ancienlivres[a] = int(ancienlivres[a])
+
+        with open("booksread.txt", "w", encoding='utf-8') as booksreadmodifdb2:
+            for index_info in range(len(livrelumodiflist)):
+                infos_split = livrelumodiflist[index_info].split(',')
+                if infos_split[0] == pseudo:
+                    livrelumodiflist[index_info] = [pseudo] + [str(i) for i in books_read_2]
+                    livrelumodiflist[index_info] = ','.join(livrelumodiflist[index_info])
+                    booksreadmodifdb2.write(livrelumodiflist[index_info] + '\n')
                 else:
-                    books_read_modif_db2.write(books_read_modif_db_list[index_info])
+                    booksreadmodifdb2.write(livrelumodiflist[index_info])
 
+    # ancien  2 3 4 5 6
+    # new     2 3 0 5 0
+    # recuperer new livres => books_read_2 index
 
+    # prendre dans une liste les elements des anciens livres qui ne sont pas dans les nouveaux
+    l = []
+    for b in range(0,len(ancienlivres)):
+        if ancienlivres[b] not in books_read_2:
+            l.append(ancienlivres[b])
 
+    # comparer indexes pour trouver les livres non qui ne sont dans la liste des nouveaux livres et les remplacer par 0
+
+    with open('matrice.txt','r') as m1:
+        matrice = m1.readlines()
+    with open('matrice.txt','w') as m1:
+        for c in range(0,len(matrice)):
+            if c != indexnom:
+                m1.write(matrice[c])
+            elif c == indexnom:
+                matrice[c]= matrice[c].split()
+                for d in range(0,len(matrice[c])):
+                    matrice[c][d] = int(matrice[c][d])
+
+                for e in l:
+                    matrice[c][e-1] = 0
+                for f in range(0,len(matrice[c])):
+                    matrice[c][f]= str(matrice[c][f])
+                matrice[c] = ' '.join(matrice[c]) + '\n'
+                m1.write(matrice[c])
 
 
 
 
 def demander_livre_lu():
-    print("quels sont les livres que vous avez déjà lu ? : ")
-    time.sleep(3)
+    print("quels sont les livres que vous avez déjà lu ? : \n")
     afficher_un_livre()
-    time.sleep(3)
-    print('Veuillez espacer les chiffres des lettres des livres que vous avez lu')
+    print('\nVeuillez espacer les chiffres des lettres des livres que vous avez lu')
     books_read = input('Veuillez saisir les chiffres :').split()
     while (books_read == []):
         print('Veuillez espacer les chiffres des lettres des livres que vous avez lu')
@@ -471,13 +538,12 @@ def demander_livre_lu():
 
 # Fonction qui affiche des consignes / conseils a l'utilisateur
 def explication_processus():
-    time.sleep(1)
     print('Bienvenu \n')
-    time.sleep(2)
+    time.sleep(1)
     print("Nous vous prions de bien vouloir suivre les consignes \n")
-    time.sleep(3)
-    print("Tout au long de ce programme, vous allez devoir lire attentivement ce qui est écrit \n")
     time.sleep(2)
+    print("Tout au long de ce programme, vous allez devoir lire attentivement ce qui est écrit \n")
+    time.sleep(1)
 
 
 def trouver_index(file_name, name_to_trouver_index):
@@ -496,10 +562,10 @@ def trouver_index(file_name, name_to_trouver_index):
                 return content
 
 
-def pas_entier(mylist):
-    for i in range(0, len(mylist)):
+def pas_entier(malist):
+    for i in range(0, len(malist)):
         for element in error_element:
-            if element in mylist[i]:
+            if element in malist[i]:
                 return True
     return False
 
@@ -527,81 +593,46 @@ def supprimer_un_livre():
     with open("books.txt","r",encoding='utf-8') as supldb:
         suplivre = supldb.readlines()
     del suplivre[indexlivre]
-    """with open("books.txt","w",encoding='utf-8') as sup2livredb:
+    with open("books.txt","w",encoding='utf-8') as sup2livredb:
         for h in suplivre:
-            sup2livredb.write(h)"""
+            sup2livredb.write(h)
+
+    with open("matrice.txt",'r') as m1:
+        matrice = m1.readlines()
+    with open("matrice.txt", 'w') as m1:
+        for lignes in range(0,len(matrice)):
+            matrice[lignes] = matrice[lignes].split()
+            del matrice[lignes][indexlivre]
+            matrice[lignes][-1] = str(int(matrice[lignes][-1]))+'\n'
+            matrice[lignes] = ' '.join(matrice[lignes])
+            m1.write(matrice[lignes])
+
     indexlivre+=1
+
     with open("booksread.txt","r",encoding='utf-8') as sup3livredb:
         sup3livre= sup3livredb.readlines()
-    #with open("booksread.txt","w",encoding='utf-8')as sup3livredb:
-    for z in range(0,len(sup3livre)):
-        sup3livre[z]= sup3livre[z].split(',')
-        for o in range(1,len(sup3livre[z])):
-            sup3livre[z][o] = int(sup3livre[z][o])
-            if sup3livre[z][o] == indexlivre:
-                sup3livre[z][o] = 0
-            elif sup3livre[z][o] > indexlivre:
-                sup3livre[z][o] -= 1
-            sup3livre[z][o] = str(sup3livre[z][o])
-        ",".join(sup3livre[z])
-        print(sup3livre)
+
+    with open("booksread.txt","w",encoding='utf-8')as sup3livredb:
+        for z in range(0,len(sup3livre)):
+            sup3livre[z]= sup3livre[z].split(',')
+            for o in range(1,len(sup3livre[z])):
+                sup3livre[z][o] = int(sup3livre[z][o])
+            if indexlivre in sup3livre[z]:
+                sup3livre[z].remove(indexlivre)
+            for w in range(1,len(sup3livre[z])):
+                if sup3livre[z][w] > indexlivre:
+                    sup3livre[z][w] -= 1
+                    sup3livre[z][w] = str(sup3livre[z][w])
+            for cpt in range(0,len(sup3livre[z])):
+                sup3livre[z][cpt] = str(sup3livre[z][cpt])
+            sup3livre[z] = ','.join(sup3livre[z]) + '\n'
+            sup3livredb.write(sup3livre[z])
+
+    retour_menu(2)
 
 
 
 
-
-
-""" for i in range(0,len(sup3livre)):
-sup3livre[i]=sup3livre[i].split(",")
-for j in range(1,len(sup3livre[i])):
-sup3livre[i][j]=int(sup3livre[i][j])
-if indexlivre == sup3livre[i][j]:
-#del sup3livre[i][j]
-elif indexlivre < sup3livre[i][j]:
-sup3livre[i][j]= sup3livre[i][j]-1"""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-""""Partie III : Recommandation"""
-
-
-# -----------------------------------------------------------------------------------------------------------------------------
-
-"""def matrice_init():
-    with open('books.txt', 'r') as nombre_de_livre:
-        nombre_de_livre = len(nombre_de_livre.readlines())
-    with open('readers.txt', 'r') as nombre_de_lecteur:
-        nombre_de_lecteur = len(nombre_de_lecteur.readlines())
-    L = []
-    for i in range(0, nombre_de_lecteur):
-        L1 = []
-        for j in range(0, nombre_de_livre):
-            L1.append(str(0))
-        L.append(L1)
-
-    for z in range(0, len(L)):
-        L[z] = ','.join(L[z])
-    with open('matrice.txt', 'w') as matrice_initiation:
-        for k in L:
-            matrice_initiation.write(k + '\n')
-
-
-matrice_init()"""
-
-
-# matrice refresh ---> supression , ajout, modifier
 
 # appel de la fonction qui crée la matrice
 
@@ -610,51 +641,99 @@ matrice_init()"""
 
 # Fonction pour noter un livre
 def noter_un_livre(pseudo):
+
     x = verifier_un_lecteur(pseudo)
     while x == False:
-        print("Cet utilisateur n'existe pas veuillez saisir un autre nom")
+        pseudo = input("Veuillez saisir un nom:")
         x = verifier_un_lecteur(pseudo)
+
     index_lecteur = trouver_index('readers.txt', pseudo)
-    print("Entrez le nom du livre que vous voulez noter : ")
-    livre_note = demander_le_nom_livre()
-    y = verifier_livre(livre_note)
-    while y == False:
-        print("Ce livre n'existe pas, veuillez saisir un autre nom de livre")
-        livre_note = demander_le_nom_livre()
-        y = verifier_livre(livre_note)
-    index_livre = trouver_index("books.txt", livre_note)
+    print()
+
+    with open('booksread.txt','r',encoding='utf-8') as livrelu3:
+        livrelu2= livrelu3.readlines()[index_lecteur].split(',')[1:]
+        for n in range(0,len(livrelu2)):
+            livrelu2[n] = int(livrelu2[n])
+    with open('books.txt','r',encoding='utf-8') as livrelulist:
+            livrelist = livrelulist.readlines()
+            livrelulist2=[]
+            for i in range(0,len(livrelu2)):
+                livrelulist2.append(livrelist[livrelu2[i]-1])
+    print("Voici les livres que vous avez lu:\n")
+    for cpt in range(0, len(livrelu2)):
+        print('-',livrelulist2[cpt])
+
+
+    livrenom = input("Entrez le nom du livre que vous voulez noter : ")
+    y = verifier_livre(livrenom)
+    y2 = False
+    for x in range(0,len(livrelu2)):
+        if livrenom+'\n'==livrelulist2[x]:
+            y2=True
+
+    while(y == False or y2==False):
+        print("Vous n'avez pas lu ce livre, veuillez saisir un autre nom de livre\nou un bon nom")
+        livrenom = input("Entrez le nom du livre (lu) que vous voulez noter : ")
+        y = verifier_livre(livrenom)
+        y2 = False
+        for x in range(0, len(livrelu2)):
+            if livrenom + '\n' == livrelulist2[x]:
+                y2 = True
+
+    index_livre = trouver_index("books.txt", livrenom)
     note = input("Attribuez une note sur 5 au livre : ")
-    while (note > '5' and note < '1'):
+    while (note > '5' or note < '1'):
         note = input("Attribuez une note (un entier ) entre 1 et 5 au livre : ")
 
-    with open("matrice.txt","r",encoding='utf-8') as mise_a_jour_matrice:
-        matrice1 = mise_a_jour_matrice.readlines()
-    for i in range(0,len(matrice1)):
-        matrice1[i] = matrice1[i].split(",")
-        for z in range(0,len(matrice1[i])):
-            matrice1[i][z] = int(matrice1[i][z])
-    matrice1[index_lecteur][index_livre] = note
-    for a in range(0,len(matrice1)):
-        for k in range(0,len(matrice1[a])):
-            matrice1[a][k] = str(matrice1[a][k])
-        matrice1[a] = ','.join(matrice1[a])
-    for b in range(0,len(matrice1)):
-        matrice1[b] = matrice1 + '\n'
+    with open("matrice.txt","r",encoding='utf-8') as misejourmatrice:
+        matrice1 = misejourmatrice.readlines()
+
+    if index_lecteur < len(matrice1):
+        for i in range(0,len(matrice1)):
+            matrice1[i] = matrice1[i].split(" ")
+            for z in range(0,len(matrice1[i])):
+                matrice1[i][z] = int(matrice1[i][z])
+        matrice1[index_lecteur][index_livre] = note
+        for a in range(0,len(matrice1)):
+            for k in range(0,len(matrice1[a])):
+                matrice1[a][k] = str(matrice1[a][k])
+            matrice1[a] = ' '.join(matrice1[a])
+        for b in range(0,len(matrice1)):
+            matrice1[b] = matrice1[b] + '\n'
+
+    else:
+        l1= matrice1[0].replace(' ','')
+        m=[]
+        for col in range(0,len(l1)-1):
+            if col == index_livre:
+                m.append(str(note))
+            else:
+                m.append(str(0))
+        m=' '.join(m)
+        m=m+'\n'
+        matrice1.append(m)
 
     with open("matrice.txt",'w',encoding='utf-8') as matrice2:
-        for m in matrice1:
-            matrice2.write(m)
+        for r in matrice1:
+            matrice2.write(r)
+
+    retour_menu(3)
 
 
-# utilisation du paramètre *args autorisé par la prof ASMA GABIS
+
+
 # fonction pour retourner en arrière ou au menu principal après une action
-def retour_menu():
+
+def retour_menu(y):
     x = input("Saisir 1 pour retourner en arrière et 2 pour retourner au menu principal : ")
     while (x != '1' and x != '2'):
         x = input("Saisir 1 pour retourner en arrière et 2 pour retourner au menu principal : ")
-    menu_de_lancement(x)
+    if x=='1':
+        menu_de_lancement(y)
+    else:
+        menu_de_lancement()
 
-
+# utilisation du paramètre *args autorisé par la prof ASMA GABIS
 # fonction pour le menu de lancement
 def menu_de_lancement(*arg):
     if arg:
@@ -677,6 +756,7 @@ def menu_de_lancement(*arg):
         option_depot_livre = demander_option_depot_livre()
         if option_depot_livre == 1:
             afficher_un_livre()
+            retour_menu(2)
         elif option_depot_livre == 2:
             ajouter_un_livre()
         elif option_depot_livre == 3:
@@ -687,28 +767,141 @@ def menu_de_lancement(*arg):
     elif menu == 3:
         option_recommandation = demander_option_recommandation_livre()
         if option_recommandation == 1:
-            pass
+            x=input('Votre pseudonyme : ')
+            noter_un_livre(x)
         elif option_recommandation == 2:
-            pass
-
-if __name__ == '__main__':
-
-    def matrice_recommandation():
-        with open("matrice.txt",'r',encoding='utf-8') as matrice1:
-            matrice2 = matrice1.readlines()
-        for z in range(0,len(matrice2)):
-            matrice2[z] = matrice2[z].split(' ')
-            for i in range(0,len(matrice2[z])):
-                matrice2[z][i] = int(matrice2[z][i])
-
-
-        # matrice 2
-        """for j in range(0,len(matrice2)):"""
+            suggerer_un_livre()
 
 
 
-    """matrice_recommandation()"""
 
 
 
+""""Partie III : Recommandation"""
+
+def calcul_matrice(a,b,matrice):
+        s1 = 0
+        s2 = 0
+        produit = 0
+        for k in range(0,len(matrice[a])):
+            produit = produit + matrice[a][k] * matrice[b][k]
+            s1 = s1 + matrice[a][k]**2
+            s2 = s2 + matrice[b][k]**2
+        return round(( produit / ( sqrt(s1) * sqrt(s2) ) ),2)
+
+def matrice_recommandation():
+    # recuperer les notes dans matrice.txt dans une variable nommé matrice
+    with open('matrice.txt', 'r') as m1:
+        matrice = m1.readlines()
+    for z in range(0, len(matrice)):
+        matrice[z] = matrice[z].split()
+        for k in range(0, len(matrice[z])):
+            matrice[z][k] = int(matrice[z][k])
+
+    # création de la matrice de similarité et remplissage de la diagonale
+    matricesimil = []
+    for i in range(0,len(matrice)):
+        x = []
+        for k in range(0,len(matrice)):
+            if i == k:
+                x.append(1.0)
+            else:
+                x.append(0)
+        matricesimil.append(x)
+
+    # remplir la matrice de similarité
+    for h in range(0,len(matrice)):
+        for j in range(0,len(matrice)):
+            if h < j:
+                matricesimil[h][j] = calcul_matrice(h,j,matrice)
+            elif h>j :
+                matricesimil[h][j] = matricesimil[j][h]
+    return matricesimil
+
+# matrice pour suggerer un livre au lecteur
+
+def suggerer_un_livre():
+    # récuperer et verifier le nom du lecteur
+    nom = demander_un_pseudonyme()
+    x = verifier_un_lecteur(nom)
+    while x == False:
+        nom = demander_un_pseudonyme()
+        x = verifier_un_lecteur(nom)
+
+    #calculer la matrice de similarité du lecteur
+    index1 = trouver_index('booksread.txt',nom)
+    matricesimilarite1 = matrice_recommandation()[index1]
+
+    # recuperer l'index de la personne ayant la plus grande similitude avec le lecteur
+    maximum = 0
+    index2 = 0
+    for z in range(0,len(matricesimilarite1)):
+        if matricesimilarite1[z] > maximum and matricesimilarite1[z] < 1:
+            maximum = matricesimilarite1[z]
+            index2 = z
+
+    # recuperer les livres lu par les deux lecteurs
+    with open('booksread.txt','r',encoding="utf-8") as booksread:
+        livreslu = booksread.readlines()
+    l1 = livreslu[index1].split(',')
+    l1 = l1[1:]
+    l2 = livreslu[index2].split(',')
+    l2 = l2[1:]
+    for q in range(0,len(l1)):
+        l1[q] = int(l1[q])
+    for s in range(0,len(l2)):
+        l2[s] = int(l2[s])
+
+    # recuperer le livre à suggerer au lecteur
+    l3 = []
+    for h in l2:
+        if h not in l1:
+            l3.append(h)
+
+
+    # suggerer le livre à l'utilisateur
+    with open('books.txt','r',encoding='utf-8') as livresdb:
+        livres = livresdb.readlines()
+    print("les livres que nous vous recommandons de lire sont : \n")
+    for i in range(0,len(l3)):
+        print(i+1,'-',livres[l3[i]-1])
+
+    nlivre=input("\nVoulez-vous selectioner un livre ? Tapez Oui ou Non :")
+    while nlivre!="Oui" and nlivre !="Non":
+        nlivre = input("\nVoulez-vous selectioner un livre ? Tapez Oui ou Non :")
+
+    if nlivre=="Oui":
+        for i in range(0, len(l3)):
+            print(l3[i],'-', livres[l3[i] - 1])
+        for j in range(0, len(l3)):
+            l3[j] = str(l3[j])
+        livrenumero=input("Veuillez saisir le numéro du livre que vous avez choisi :")
+        while(livrenumero not in l3):
+            livrenumero = input("Veuillez saisir un numéro valide :")
+        with open('booksread.txt','r',encoding='utf-8') as booksread2:
+            x = booksread2.readlines()
+        with open('booksread.txt','w',encoding='utf-8') as booksread2:
+            for w in range(0,len(x)):
+                v =  x[w].split(',')
+                if v[0]== nom:
+                    for cpt in range(1,len(v)):
+                        v[cpt] = int(v[cpt])
+                    v.append('{}\n'.format(livrenumero))
+                    for cpt2 in range(1,len(v)-1):
+                        v[cpt2] = str(v[cpt2])
+                    v = ','.join(v)
+                    booksread2.write(v)
+                else:
+                    booksread2.write(x[w])
+
+    else:
+        print("N'oubliez pas de noter un de ces livres après leur lecture")
+    retour_menu(3)
+
+
+
+#print(timeit.timeit("matrice_recommandation()",setup="from __main__ import matrice_recommandation",number=100000))
+
+# 0.0009906291961669922
+# 0.0009894371032714844
 
