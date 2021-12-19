@@ -1,8 +1,10 @@
 Gilbert,1,2,1
 William,3,3,7
 AlienRoXoR17,2,1,3
-Anonyme,3,3,2
+anonyme,3,3,2
 Lecteur_assidu,1,1,3
-Haripoteur,3,2,5
-Lili,2,2,2
+haripoteur,3,2,5
+Lilii,2,2,7
 ArchiBald_fx,1,3,4
+Marcus,1,1,1
+Lio,1,1,1
