@@ -225,15 +225,17 @@ def afficher_un_lecteur():
          lecteurs = bookread_db.readlines()
          livreluindex = trouver_index("booksread.txt",aflecteur)
          lecteur= lecteurs[livreluindex].split(",")
-         for z in range(1,len(lecteur)):
-             lecteur[z]=int(lecteur[z])
+
+         if len(lecteur)>1 and lecteur[1]!='\n':
+             for z in range(1, len(lecteur)):
+                    lecteur[z]=int(lecteur[z])
 
          if aflecteur == lecteur[0]:
              livreslu = lecteur[1:]
 
              with open("books.txt","r",encoding='utf-8') as books_db:
                  livres1= books_db.readlines()
-                 if livreslu == ["0"]:
+                 if livreslu == [0] :
                      print("{} n'a lu auccun livre".format(aflecteur))
                  else:
                      print("{} a lu : ".format(aflecteur),"\n")
@@ -295,6 +297,7 @@ def modifier_un_lecteur():
                             mod_p_apply.write(rpmodlist[lines])
                         else:
                             mod_p_apply.write(rpmodlist[lines])
+
 
         elif options == 2:
             ngenremod = demander_genre()
@@ -504,6 +507,7 @@ def modifier_livre_lu(pseudo):
 def demander_livre_lu():
     print("quels sont les livres que vous avez déjà lu ? : \n")
     afficher_un_livre()
+    print("Saisir 0 si vous n'avez lu aucun livre")
     print('\nVeuillez espacer les chiffres des lettres des livres que vous avez lu')
     books_read = input('Veuillez saisir les chiffres :').split()
     while (books_read == []):
@@ -534,6 +538,9 @@ def demander_livre_lu():
         else:
             books_read_in_books = False
             print("veuillez ne pas écrire de lettre ou utiliser d'autres caractères mis a part les chiffres. ")
+    if (len(books_read)>1 ) and (0 in books_read):
+        print("Etant donné que vous avez saisir d'autre nombre que le 0, nous ne prendrons pas en compte le 0")
+        books_read.remove(0)
     return books_read
 
 # Fonction qui affiche des consignes / conseils a l'utilisateur
@@ -654,70 +661,75 @@ def noter_un_livre(pseudo):
         livrelu2= livrelu3.readlines()[index_lecteur].split(',')[1:]
         for n in range(0,len(livrelu2)):
             livrelu2[n] = int(livrelu2[n])
-    with open('books.txt','r',encoding='utf-8') as livrelulist:
-            livrelist = livrelulist.readlines()
-            livrelulist2=[]
-            for i in range(0,len(livrelu2)):
-                livrelulist2.append(livrelist[livrelu2[i]-1])
-    print("Voici les livres que vous avez lu:\n")
-    for cpt in range(0, len(livrelu2)):
-        print('-',livrelulist2[cpt])
+    if livrelu2 ==[0]:
+        print("Vous n'avez lu aucun livre par conséquent, vous ne pouvez pas noter de livre\n")
+        retour_menu(3)
+    else:
+
+        with open('books.txt','r',encoding='utf-8') as livrelulist:
+                livrelist = livrelulist.readlines()
+                livrelulist2=[]
+                for i in range(0,len(livrelu2)):
+                    livrelulist2.append(livrelist[livrelu2[i]-1])
+        print("Voici les livres que vous avez lu:\n")
+        for cpt in range(0, len(livrelu2)):
+            print('-',livrelulist2[cpt])
 
 
-    livrenom = input("Entrez le nom du livre que vous voulez noter : ")
-    y = verifier_livre(livrenom)
-    y2 = False
-    for x in range(0,len(livrelu2)):
-        if livrenom+'\n'==livrelulist2[x]:
-            y2=True
-
-    while(y == False or y2==False):
-        print("Vous n'avez pas lu ce livre, veuillez saisir un autre nom de livre\nou un bon nom")
-        livrenom = input("Entrez le nom du livre (lu) que vous voulez noter : ")
+        livrenom = input("Entrez le nom du livre que vous voulez noter : ")
         y = verifier_livre(livrenom)
         y2 = False
-        for x in range(0, len(livrelu2)):
-            if livrenom + '\n' == livrelulist2[x]:
-                y2 = True
+        for x in range(0,len(livrelu2)):
+            if livrenom+'\n'==livrelulist2[x]:
+                y2=True
 
-    index_livre = trouver_index("books.txt", livrenom)
-    note = input("Attribuez une note sur 5 au livre : ")
-    while (note > '5' or note < '1'):
-        note = input("Attribuez une note (un entier ) entre 1 et 5 au livre : ")
+        while(y == False or y2==False):
+            print("Vous n'avez pas lu ce livre, veuillez saisir un autre nom de livre\nou un bon nom")
+            livrenom = input("Entrez le nom du livre (lu) que vous voulez noter : ")
+            y = verifier_livre(livrenom)
+            y2 = False
+            for x in range(0, len(livrelu2)):
+                if livrenom + '\n' == livrelulist2[x]:
+                    y2 = True
 
-    with open("matrice.txt","r",encoding='utf-8') as misejourmatrice:
-        matrice1 = misejourmatrice.readlines()
+        index_livre = trouver_index("books.txt", livrenom)
+        note = input("Attribuez une note sur 5 au livre : ")
+        while (note > '5' or note < '1'):
+            note = input("Attribuez une note (un entier ) entre 1 et 5 au livre : ")
 
-    if index_lecteur < len(matrice1):
-        for i in range(0,len(matrice1)):
-            matrice1[i] = matrice1[i].split(" ")
-            for z in range(0,len(matrice1[i])):
-                matrice1[i][z] = int(matrice1[i][z])
-        matrice1[index_lecteur][index_livre] = note
-        for a in range(0,len(matrice1)):
-            for k in range(0,len(matrice1[a])):
-                matrice1[a][k] = str(matrice1[a][k])
-            matrice1[a] = ' '.join(matrice1[a])
-        for b in range(0,len(matrice1)):
-            matrice1[b] = matrice1[b] + '\n'
+        with open("matrice.txt","r",encoding='utf-8') as misejourmatrice:
+            matrice1 = misejourmatrice.readlines()
 
-    else:
-        l1= matrice1[0].replace(' ','')
-        m=[]
-        for col in range(0,len(l1)-1):
-            if col == index_livre:
-                m.append(str(note))
-            else:
-                m.append(str(0))
-        m=' '.join(m)
-        m=m+'\n'
-        matrice1.append(m)
+        if index_lecteur < len(matrice1):
+            for i in range(0,len(matrice1)):
+                matrice1[i] = matrice1[i].split(" ")
+                for z in range(0,len(matrice1[i])):
+                    matrice1[i][z] = int(matrice1[i][z])
+            matrice1[index_lecteur][index_livre] = note
+            for a in range(0,len(matrice1)):
+                for k in range(0,len(matrice1[a])):
+                    matrice1[a][k] = str(matrice1[a][k])
+                matrice1[a] = ' '.join(matrice1[a])
+            for b in range(0,len(matrice1)):
+                matrice1[b] = matrice1[b] + '\n'
 
-    with open("matrice.txt",'w',encoding='utf-8') as matrice2:
-        for r in matrice1:
-            matrice2.write(r)
+        else:
+            l1= matrice1[0].replace(' ','')
+            m=[]
+            for col in range(0,len(l1)-1):
+                if col == index_livre:
+                    m.append(str(note))
+                else:
+                    m.append(str(0))
+            m=' '.join(m)
+            m=m+'\n'
+            matrice1.append(m)
 
-    retour_menu(3)
+        with open("matrice.txt",'w',encoding='utf-8') as matrice2:
+            for r in matrice1:
+                matrice2.write(r)
+
+        retour_menu(3)
 
 
 
@@ -787,7 +799,10 @@ def calcul_matrice(a,b,matrice):
             produit = produit + matrice[a][k] * matrice[b][k]
             s1 = s1 + matrice[a][k]**2
             s2 = s2 + matrice[b][k]**2
-        return round(( produit / ( sqrt(s1) * sqrt(s2) ) ),2)
+        if s1 == 0 or s2 == 0 or produit ==0:
+            return 0.0
+        else:
+            return round(( produit / ( sqrt(s1) * sqrt(s2) ) ),2)
 
 def matrice_recommandation():
     # recuperer les notes dans matrice.txt dans une variable nommé matrice
@@ -831,7 +846,6 @@ def suggerer_un_livre():
     #calculer la matrice de similarité du lecteur
     index1 = trouver_index('booksread.txt',nom)
     matricesimilarite1 = matrice_recommandation()[index1]
-
     # recuperer l'index de la personne ayant la plus grande similitude avec le lecteur
     maximum = 0
     index2 = 0
@@ -862,7 +876,7 @@ def suggerer_un_livre():
     # suggerer le livre à l'utilisateur
     with open('books.txt','r',encoding='utf-8') as livresdb:
         livres = livresdb.readlines()
-    print("les livres que nous vous recommandons de lire sont : \n")
+    print("\n les livres que nous vous recommandons de lire sont : \n")
     for i in range(0,len(l3)):
         print(i+1,'-',livres[l3[i]-1])
 
