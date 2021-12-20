@@ -85,6 +85,19 @@ def ajouter_un_lecteur():
         h = input("Voulez-vous noter un livre ?\n Tapez Oui ou Non :  ")
     if h == 'Oui':
         evaluer_ses_livres(nompseudo)
+    else:
+        with open('matrice.txt','r') as m1:
+            m2 = m1.readlines()
+        with open('matrice.txt', 'w') as m1:
+            x = m2[0]
+            x = len(x.split())
+            u=[]
+            for v in range(0,x):
+                u.append(str(0))
+            u = ' '.join(u)+'\n'
+            m2.append(u)
+            for j in range(0,len(m2)):
+                m1.write(m2[j])
 
 
 # Une fonction qui supprime un lecteur
