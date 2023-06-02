@@ -17,7 +17,7 @@
 
 ## Comment exécuter le projet ?
 
-1 - lancer la commander :  """ git clone https://github.com/lionelmarcus10/Book_suggestion """ sur votre temrinal
+1 - lancer la commander :  """ git clone https://github.com/lionelmarcus10/Suggest """ sur votre temrinal
 
   - ou copier le projet
 
